@@ -63,16 +63,17 @@
             <div class="row mb-2">
               <div class="col-xl-6 col-lg-12 mb-2">
                 <!-- 1️⃣ Enter Player Name -->
-                <div id="inputBox" class="d-flex">
+                <div id="inputBox" class="input-group">
                   <span class="input-group-text">1️⃣Player Name:</span>
-                  <input id="enteredPlayerName" class="form-control" placeholder="Enter your name?">
+                  <label for="enteredPlayerName" class="visually-hidden">Enter your player name</label>
+                  <input id="enteredPlayerName" class="form-control" placeholder="What's your name?" aria-label="Enter your player name">
                   <button id="submitPlayerName" class="btn btn-primary">submit</button> 
                 </div>
               </div>
               
               <div class="col-xl-6 col-lg-12 mb-2">
                 <!-- 2️⃣ Greeting -->
-                <div id="nameBox" class="d-flex">
+                 <div id="nameBox" class="input-group">
                   <span id="displayPlayerName" class="input-group-text flex-grow-1"></span>
                   <button id="playGame" type="button" class="btn btn-warning">Play!</button>  
                 </div>
@@ -161,7 +162,9 @@
                     </div>
                     <div id="bag" class="gameTargets bg-primary rounded" style="width: 80px; height: 80px; background-image: url('images/bag.jpg'); background-size: cover; background-position: center;">
                     </div>
-                    <small class="text-muted text-center mt-3">Hint: You have too much crap to put here!</small>
+                    <!--<small class="text-muted text-center mt-3">Hint: You have too much crap to put here!</small>-->
+                    <!-- Option 4: Custom styling via CSS -->
+                        <small class="text-muted text-center mt-3 hint-text">Hint: You have too much crap to put here!</small>
                   </div>
                 </div>
                 
@@ -185,7 +188,8 @@
       <!--add link to wireframe it goes inside the a anchor-->
       <p>
       <a class="text-body" href="images/superGame-wireframe-bfletcher-block02.png" target="_blank">wireframe</a> |
-      <a class="text-body" target="_blank" href="https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fbfletcher4921.github.io%2Fvigilant-adventure-superGame%2F#l61c179">Check the validity of this page</a>
+      <a class="text-body" target="_blank" href="https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fbfletcher4921.github.io%2Fvigilant-adventure-superGame%2F#l61c179">Check the validity of this page</a> | 
+      <a class="text-body" target="_blank" href="https://wave.webaim.org/report#/https://bfletcher4921.github.io/vigilant-adventure-superGame/">Check the accessibility of this page</a>
       </p>
     </div>
   </footer>
