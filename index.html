@@ -15,14 +15,14 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-  <link rel="stylesheet" href="styles/gameStyle.js">
+  <link rel="stylesheet" href="styles/gameStyle.css">
 
 </head>
 
-<body class="container-fluid vh-100">
+<body class="container-fluid vh-100 svg-background;">
   <header style="font-family: 'Space Mono', monospace; font-weight: 700; font-size: 2rem; text-align: center;">
     <!-- todo: rmv inline style => style.css -->
-    <h1>b|f</h1>
+    <h1>b|f Super Game!</h1>
   </header>
   <!--Navbar-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -47,91 +47,139 @@
   <h3 id="userGreeting"></h3>
 
   <!--Begins large container-->
-  <div class="row mt-3 h-75 container-fluid">
+  <div class="row mt-3 vh-75 container-fluid;">
+    <!--column 1-->
+    <div class="col-sm-2 container-fluid ml-auto">
+      <img src="images/get it together.PNG" class="object-fit-contain border rounded" class="ml-auto" alt="get it together">
+    </div>
     
-    <div class="col-md-4 p-2 m-3">
-      <div class="card seeMe h-50">game stuff goes here</div>
-      <div class="card seeMe h-50">
-        <h2 class="text-primary header-bg"><i class="bi bi-kanban"></i>Projects</h2>
-        <div class="d-flex flex-row gap-3 flex-nowrap overflow-auto">
-          <div class="card shadow-sm text-center" style="aspect-ratio: 1 / 1;">
-            <div class="card-body d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-lightbulb display-4 mb-2 text-primary"></i>
-              <h5 class="card-title">Super Game!</h5>
-              <p class="card-text small">An example game</p>
-              <div class="card-footer">
-                <a href="https://bfletcher4921.github.io/vigilant-adventure-superGame/" target="_blank" class="btn btn-primary"><i class="bi bi-joystick">Play SuperGame!</i></a>
-                <br>
-                <a href="https://github.com/bfletcher4921/vigilant-adventure-superGame" target="_blank" class="btn btn-secondary">&lt;<i  class="bi bi-github">source code&gt;</i></a>
-              </div>
-            </div>
-          </div>
-          <div class="card shadow-sm text-center" style="aspect-ratio: 1 / 1;">
-            <div class="card-body d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-lightbulb display-4 mb-2 text-primary"></i>
-              <h5 class="card-title">Project 2</h5>
-              <p class="card-text small">Description</p>
-            </div>
-          </div>
-          <div class="card shadow-sm text-center" style="aspect-ratio: 1 / 1;">
-            <div class="card-body d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-lightbulb display-4 mb-2 text-primary"></i>
-              <h5 class="card-title">Project 3</h5>
-              <p class="card-text small">Description</p>
-            </div>
-          </div>
-        </div>
+    <!--column 2-->
+    <div class="col-md-10 ">
 
+<!--gamecontrol row-->
+<div class="col-md-6 p-2 m-3">
+  <div class="row m-1 p-3">
+    <div class="col-md-10 shadow">
+      <!-- todo: rules -->
+      
+      <!-- First row: Steps 1 and 2 -->
+      <div class="d-flex m-2">
+        <!-- 1️⃣ Enter Player Name -->
+        <div id="inputBox" class="d-flex justify-content-center me-2">
+          <span class="input-group-text">1️⃣ Enter Player Name:</span>
+          <input id="enteredPlayerName" class="form-control" placeholder="Enter your name?">
+          <button id="submitPlayerName" class="btn btn-primary btn-md">submit</button> 
+        </div>
+    
+        <!-- 2️⃣ Greeting -->
+        <div id="nameBox" class="d-flex">
+          <span id="displayPlayerName" class="input-group-text">2️⃣</span>
+          <button id="playGame" type="button" class="btn btn-warning">Play!</button>  
+        </div>
       </div>
       
+      <!-- Second row: Steps 3 and 4 -->
+      <div class="d-flex m-2">
+        <!-- 3️⃣ Drag crap to backpack -->
+        <div id="goBox1" class="d-flex p-1 me-2">
+          <span class="input-group-text">3️⃣ Move all your crap to the backpack!</span>
+        </div>
+        
+        <!-- 4️⃣ Move crap to new home -->
+        <div id="goBox2" class="d-flex p-1">
+          <span class="input-group-text">4️⃣ Move the bag o' crap to a new home!</span>
+        </div>
+      </div>
+
+      <span class="float-end align-bottom">
+        <a id="resetGame" class="fst-italic">reset</a>
+      </span>
     </div>
-    <div class="col-md-4 p-2 m-3">
-      <div class="card seeMe h-100">
-        <h2>Developer Life</h2>
-        <div class="blogEntry m-2 border border-1 rounded border-danger">
-          <h3>Blog Entry</h3>
-          <p>Stuff in this blog entry </p>
-        </div>
-         <div class="blogEntry m-2">
-        <h3>Blog Entry</h3>
-        <p>Stuff in this blog entry </p>
-        </div>
-         <div class="blogEntry m-2">
-          <h3>Blog Entry</h3>
-          <p>Stuff in this blog entry </p>
-        </div>
-      </div>  
-    </div>
+    <!-- closes rules cols -->
     
+    <div class="col-md-2 shadow">
+      <!-- Score Box -->
+      <div class="d-flex flex-column align-items-center justify-content-center bg-light ms-auto p-1"
+          style="width: 90px; height: 90px; min-width: 90px;">
+        <span class="fw-bold fs-5">Score</span>
+        <span class="fs-4"><span id="playerScore">0</span></span>
+        <button id="playAgain" type="button" class="btn btn-warning btn-sm mt-1">play again</button>
+      </div>
+    </div><!-- closes score col -->
   </div>
+</div><!-- closes game control row -->
+    
+
+<!-- game board row -->
+<div class="row m-1 h-50 border border-3 border-info rounded-3">
+  <!-- the game board -->
+  <div id="gameBoard" class="col-12 h-100">
+    
+    <!-- Single row with all game elements -->
+    <div class="row h-100">
+      
+<!-- Game piece area -->
+<div class="col-4 position-relative h-100 d-flex align-items-center">
+  <div class="position-relative w-100" style="height: 200px;">
+    <!-- Game piece 1 -->
+    <img id="gamePiece1" class="position-absolute" style="width: 100px; height: 100px; top: 10px; left: 10px;" src="images/crap.jfif" alt="crap 1">
+    
+    <!-- Game piece 2 -->
+    <img id="gamePiece2" class="position-absolute" style="width: 100px; height: 100px; top: 10px; left: 120px;" src="images/crap.jfif" alt="crap 2">
+    
+    <!-- Game piece 3 -->
+    <img id="gamePiece3" class="position-absolute" style="width: 100px; height: 100px; top: 120px; left: 10px;" src="images/crap.jfif" alt="crap 3">
+    
+    <!-- Game piece 4 -->
+    <img id="gamePiece4" class="position-absolute" style="width: 100px; height: 100px; top: 120px; left: 120px;" src="images/crap.jfif" alt="crap 4">
+  </div>
+</div>
+
+<!-- Backpack target area -->
+<div class="col-4 d-flex align-items-center justify-content-center">
+  <div id="backpack" class="gameTargets rounded" 
+       style="width: 150px; height: 150px; background-image: url('images/backpack.png'); background-size: cover; background-position: center;">
+  </div>
+</div>
+
+<!-- crap targets -->
+<div class="col-4 d-flex flex-column align-items-center justify-content-center">
+  <div id="museum" class="gameTargets bg-primary rounded" style="width: 100px; height: 100px; margin-bottom: 60px; background-image: url('images/museum.jfif'); background-size: cover; background-position: center;">
+</div>
+<div id="shop" class="gameTargets bg-primary rounded" style="width: 100px; height: 100px; margin-bottom: 60px; background-image: url('images/shop.png'); background-size: cover; background-position: center;"></div>
+  <div id="bag" class="gameTargets bg-primary rounded" style="width: 100px; height: 100px; background-image: url('images/bag.jpg'); background-size: cover; background-position: center;"></div>I don't want to take my crap anywhere..
+</div>
+      
+    </div> 
+  </div>
+</div>
+<!--end of gameboard-->
+</div>
+             
+</div>
   <!--closes large container-->
 
-  
-
-      
-     </section>
-       <!--End example-->
-
-   </main>
-
-    <!--Projects & resources-->
   <footer>
-    <div class=""text-center p-3 style="background-color: darkgrey>;">
+    <div class="text-center p-3" style="background-color: rgb(253, 130, 29);">
       © 2025 Copyright:
-      <a class="text-body" href="https://github.com/bfletcher4921?tab=repositories" target="_blank">b | f</a> 
-    <p>Footer</p>
-    <!--add link to wireframe it goes inside the a anchor-->
-    <a class="text-body" target="_blank">wireframe</a>
+      <a class="text-body" href="https://github.com/bfletcher4921/brandifletcher" target="_blank">b | f</a> 
+      <p>Footer</p>
+      <!--add link to wireframe it goes inside the a anchor-->
+      <a class="text-body" target="_blank">wireframe</a>
+    </div>
   </footer>
 
     <!---- put scripts (these are bootstrap) directly before closing the body. Nothing in between. -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js" integrity="sha384-RuyvpeZCxMJCqVUGFI0Do1mQrods/hhxYlcVfGPOfQtPJh0JCw12tUAZ/Mv10S7D" crossorigin="anonymous"></script>
+     <!-- Add jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" crossorigin="anonymous"></script>
 
     <!--- links js script to index html-->
     <script src="gameScript.js"></script>
+   
 
-    <!--to do add jquery-->
+    
 
 
 </body>
