@@ -9,11 +9,11 @@ body {
 
   /* Make elements semi-transparent so you can see the background */
   .shadow {
-    background-color: rgba(255, 255, 255, 0.9) !important;
+    background-color: rgba(255, 255, 255, 0.8) !important;
   }
 
   .bg-light {
-    background-color: rgba(248, 249, 250, 0.8) !important;
+    background-color: rgba(248, 249, 250, 0.7) !important;
   }
 
   .main-game-piece {
@@ -34,5 +34,114 @@ body {
   [id^="gamePiece"] {
     transition: opacity 0.5s ease !important;
   }
+
+  /* Responsive image sizing */
+.responsive-image {
+  max-height: 200px;
+  min-height: 150px;
+  width: auto;
+}
+
+/* Large screens */
+@media (min-width: 992px) {
+  .responsive-image {
+    max-height: 400px;
+    min-height: 300px;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1200px) {
+  .responsive-image {
+    max-height: 500px;
+    min-height: 350px;
+  }
+}
+
+/* Medium screens */
+@media (min-width: 768px) and (max-width: 991px) {
+  .responsive-image {
+    max-height: 250px;
+    min-height: 200px;
+  }
+}
+
+/* Small screens */
+@media (max-width: 767px) {
+  .responsive-image {
+    max-height: 180px;
+    min-height: 120px;
+  }
+}
+
+/* Sticky footer layout */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure body uses full viewport height */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content grows to fill available space */
+main {
+  flex: 1 0 auto;
+}
+
+/* Footer styles */
+.footer {
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.target-container {
+  gap: 2rem; /* Increase this value for more spacing */
+}
+
+.gameTargets {
+  margin-bottom: 1.5rem !important;
+}
+
+/* Responsive spacing adjustments */
+@media (min-width: 992px) {
+  .target-container {
+    gap: 2.5rem;
+  }
+  
+  .gameTargets {
+    margin-bottom: 2rem !important;
+  }
+}
+
+.scrollable-game-container {
+  max-height: 70vh; /* 70% of viewport height */
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+#gameBoard {
+  min-height: 400px;
+  position: relative;
+}
+
+/* Ensure draggable elements work within scrollable container */
+.ui-draggable {
+  z-index: 1000;
+}
+
+/* Keep game pieces visible during scroll */
+[id^="gamePiece"] {
+  z-index: 100;
+}
+
+#backPack {
+  z-index: 200;
+}
 
 

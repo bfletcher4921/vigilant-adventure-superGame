@@ -18,13 +18,15 @@ $(document).ready(function() {
   // Play game button
   $('#playGame').on('click', function() {
     $('#goBox1').addClass('d-flex').show(); 
-    // DON'T show goBox2 yet - only show it when backpack becomes main piece
     $('[id^="gamePiece"]').show();
     $('#nameBox').removeClass('d-flex').hide(); 
     $('#playGame').prop('disabled', true).hide(); 
     
     // Show initial instruction for backpack
     $('#goBox1').text('3️⃣ 👉Move all your crap 💩 to the backpack');
+    
+    // Initialize draggables
+    initializeDraggables();
   });
 
   // Play again button
@@ -53,55 +55,65 @@ $(document).ready(function() {
     
     // Hide Play Again button
     $('#playAgain').hide();
+    
+    // Re-initialize draggables
+    initializeDraggables();
   }); 
 
   $('#resetGame').on('click', function() {
     initializeGame();
   });
 
-  // Make all game pieces draggable
+  // Make all game pieces -backpack and crap pieces- draggable
   $('[id^="gamePiece"]').draggable({
     containment: "#gameBoard", 
     scroll: true,
-    snap: ".backpack-target, .gameTargets", 
+    snap: ".backpackTarget, .gameTargets", 
     snapMode: "inner", 
     snapTolerance: 60,
     revert: function(dropped) {
       // Revert if not dropped on valid target
       if (!dropped) return true;
       
-      // In backpack phase, only allow drops on backpack
-      if (gamePhase === 'toBackpack' && !dropped.hasClass('backpack-target')) {
+      // In backpack phase, only allow drops of crap on backpack
+      if (gamePhase === 'toBackpack' && !dropped.hasClass('backpackTarget')) {
         return true;
       }
       
-      // In house phase, only allow drops on house targets
+      // In house phase, only allow drops of backpack on house targets
       if (gamePhase === 'toHouse' && !dropped.hasClass('gameTargets')) {
         return true;
       }
       
       return false;
+    },
+    revertDuration: 300, // Add smooth revert animation
+    stop: function(event, ui) {
+      // Re-enable snapping after any drag operation- it's still not snapping to the new targets and I'm too tired to fix it
+      $(this).draggable('option', 'snap', '.backpackTarget, .gameTargets');
+      $(this).draggable('option', 'snapMode', 'inner');
+      $(this).draggable('option', 'snapTolerance', 60);
     }
   });
 
-  // Make the backpack droppable (first part of game)
+  // Make the backpack droppable by adding all the crap first (first part of game)
   $('#backPack').droppable({
     accept: '[id^="gamePiece"]',
     drop: function(event, ui) {
       const droppedPiece = ui.draggable.attr('id');
       
       if (gamePhase === 'toBackpack') {
-        // Add item to backpack
+        // Add crap to backpack
         if (!backpackItems.includes(droppedPiece)) {
           backpackItems.push(droppedPiece);
           
           // Hide the piece completely
           ui.draggable.hide();
           
-          // MOVED: Update goBox2 instead of backpack text
+          //Update goBox2 with game crap collection progress
           $('#goBox2').text(`Crap collected: ${backpackItems.length}/4`).addClass('d-flex').show();
           
-          // Check if all pieces are in backpack
+          // Check if all your crap is in the backpack
           if (backpackItems.length >= 4) {
             gamePhase = 'toHouse';
             
@@ -109,13 +121,13 @@ $(document).ready(function() {
             $('#goBox2').text('4️⃣ All crap is packed! Now take the backpack o\' crap to the right place!');
             
             // Update instructions
-            $('#goBox1').text('Great! All your crap is together! 🎒');
+            $('#goBox1').text('Awesome! All your crap is together! 🎒');
             
-            // Hide all remaining pieces and make backpack draggable
+            // Hide all remaining pieces aka crap and make backpack draggable
             $('[id^="gamePiece"]').hide();
             $('[id^="gamePiece"]').draggable('disable');
             
-            // Make the backpack the main game piece
+            // Make the backpack the main game piece- all the crap is now moved to it
             $(this).draggable({
               containment: "#gameBoard",
               snap: ".gameTargets",
@@ -134,7 +146,7 @@ $(document).ready(function() {
         }
       }
     }
-  }).addClass('backpack-target'); // Add class for identification
+  }).addClass('backpackTarget'); 
 
   // Make house targets droppable (second part of game)
   $('.gameTargets').droppable({
@@ -148,13 +160,13 @@ $(document).ready(function() {
           $('#goBox1, #goBox2').removeClass('d-flex').hide();
           
           // Show success message
-          $('#messageText').text('🎉 Perfect! You got it all together!');
+          $('#messageText').text('🎉 You got your crap together!');
           $('#gameMessage').removeClass('alert-danger').addClass('alert-success').show();
         } else {
           playerScore = Math.max(0, playerScore - 1);
           
           // Show error message  
-          $('#messageText').text('❌ Wrong place! Try somewhere else.');
+          $('#messageText').text('❌ You failed to take your crap there! Try somewhere else.');
           $('#gameMessage').removeClass('alert-success').addClass('alert-danger').show();
           
           $('#backPack').css({
@@ -174,6 +186,48 @@ $(document).ready(function() {
   });
 });
 
+// Add this function to initialize/re-initialize draggables
+function initializeDraggables() {
+  $('[id^="gamePiece"]').each(function() {
+    // Destroy existing draggable if it exists
+    if ($(this).hasClass('ui-draggable')) {
+      $(this).draggable('destroy');
+    }
+    
+    // Initialize fresh draggable
+    $(this).draggable({
+      containment: "#gameBoard", 
+      scroll: true,
+      snap: ".backpackTarget, .gameTargets", 
+      snapMode: "inner", 
+      snapTolerance: 60,
+      revert: function(dropped) {
+        // Revert if not dropped on valid target
+        if (!dropped) return true;
+        
+        // In backpack phase, only allow drops of crap on backpack
+        if (gamePhase === 'toBackpack' && !dropped.hasClass('backpackTarget')) {
+          return true;
+        }
+        
+        // In house phase, only allow drops of crap on house targets
+        if (gamePhase === 'toHouse' && !dropped.hasClass('gameTargets')) {
+          return true;
+        }
+        
+        return false;
+      },
+      revertDuration: 300,
+      stop: function(event, ui) {
+        // Re-enable snapping after any drag operation
+        $(this).draggable('option', 'snap', '.backpackTarget, .gameTargets');
+        $(this).draggable('option', 'snapMode', 'inner');
+        $(this).draggable('option', 'snapTolerance', 60);
+      }
+    });
+  });
+}
+
 function initializeGame() {
   console.log('Initializing game...');
   
@@ -181,7 +235,7 @@ function initializeGame() {
   $('[id^="gamePiece"]').hide();
   $('#goBox2').removeClass('d-flex').hide().text(''); // Clear goBox2 text
   
-  // Reset game state
+  // Reset game 
   backpackItems = [];
   gamePhase = 'toBackpack';
   
@@ -189,7 +243,7 @@ function initializeGame() {
   $('.gameTargets').text(''); 
   $('#gameMessage').hide(); // Hide any success/error messages
   
-  // Reset backpack position but keep original styling
+  // Reset backpack position 
   $('#backPack').css({
     position: '',
     top: '',
@@ -205,7 +259,7 @@ function initializeGame() {
   $('#playAgain').hide();
   $('#playGame').prop('disabled', false); 
 
-  // Reset positions but keep them hidden
+  // Reset crap positions but keep them hidden
   $('#gamePiece1').css({ left: '10px', top: '10px', position: 'absolute' }); 
   $('#gamePiece2').css({ left: '120px', top: '10px', position: 'absolute' }); 
   $('#gamePiece3').css({ left: '10px', top: '120px', position: 'absolute' }); 
@@ -226,34 +280,35 @@ function initializeGame() {
 }
 
 function resetGamePiecePositions() {
-  // Reset individual game pieces positions AND show them
+  // Reset individual game pieces aka crap positions AND show them
   $('#gamePiece1').css({ left: '10px', top: '10px', position: 'absolute' }).show(); 
-  $('#gamePiece2').css({ left: '120px', top: '10px', position: 'absolute' }).show(); 
-  $('#gamePiece3').css({ left: '10px', top: '120px', position: 'absolute' }).show(); 
-  $('#gamePiece4').css({ left: '120px', top: '120px', position: 'absolute' }).show(); 
+  $('#gamePiece2').css({ left: '100px', top: '10px', position: 'absolute' }).show(); 
+  $('#gamePiece3').css({ left: '10px', top: '100px', position: 'absolute' }).show(); 
+  $('#gamePiece4').css({ left: '100px', top: '100px', position: 'absolute' }).show(); 
   
-  // Reset only specific properties, keep background image
+  // Reset backpack position
   $('#backPack').css({
-    position: '',       // Clear position
-    top: '',           // Clear top
-    left: '',          // Clear left  
-    transform: '',     // Clear transform
-    opacity: '1'       // Reset opacity
+    position: '',
+    top: '',
+    left: '',
+    transform: '',
+    opacity: '1'
   }).removeClass('main-game-piece ui-draggable ui-draggable-handle')
     .text('')
     .show();
   
-  // Re-enable game pieces dragging
-  $('[id^="gamePiece"]').draggable({ disabled: false });
-  
-  // Completely remove backpack draggable functionality
+  // Remove backpack draggable functionality- must be filled with crap
   if ($('#backPack').hasClass('ui-draggable')) {
     $('#backPack').draggable('destroy');
   }
+  
+  // Re-initialize draggables for game pieces
+  initializeDraggables();
 }
 
 function setKittysHouse() {
   // Define valid targets (exclude bag)
+  console.log('the bag is not a valid target for the backpack of crap')
   const validTargets = ['#museum', '#shop']; // Only these can win
   
   // Get jQuery objects for valid targets only
@@ -261,7 +316,7 @@ function setKittysHouse() {
   
   winningHouse = Math.floor(Math.random() * gameTargets.length);
   console.log('Winning house:', $(gameTargets[winningHouse]).attr('id'));
-  console.log('Bag is never the answer!');
+  console.log('You failed to find the correct target!');
 }
 
 function greetPlayer() {
