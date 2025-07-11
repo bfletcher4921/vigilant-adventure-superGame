@@ -15,6 +15,24 @@ body {
   .bg-light {
     background-color: rgba(248, 249, 250, 0.8) !important;
   }
-  
 
-  
+  .main-game-piece {
+    border: 3px solid #007bff !important;
+    background-color: #e3f2fd !important;
+    font-weight: bold !important;
+    box-shadow: 0 4px 8px rgba(0,123,255,0.3) !important;
+    transform: scale(1.1) !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .main-game-piece:hover {
+    transform: scale(1.15) !important;
+    box-shadow: 0 6px 12px rgba(0,123,255,0.4) !important;
+  }
+
+  /* Hide game pieces with smooth transition */
+  [id^="gamePiece"] {
+    transition: opacity 0.5s ease !important;
+  }
+
+
