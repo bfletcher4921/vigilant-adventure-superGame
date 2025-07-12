@@ -142,6 +142,110 @@ main {
 
 #backPack {
   z-index: 200;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+#backPack:hover {
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  filter: brightness(1.2) contrast(1.1);
+  border: 3px solid #ffc107;
+  z-index: 1002;
+}
+
+/* Backpack when it becomes draggable (main game piece) */
+#backPack.main-game-piece:hover {
+  transform: scale(1.15) rotate(-2deg);
+  box-shadow: 0 10px 20px rgba(0, 123, 255, 0.4);
+  cursor: grab;
+  border: 3px solid #007bff;
+}
+
+/* Backpack active state when being dragged */
+#backPack:active {
+  cursor: grabbing !important;
+  transform: scale(0.98) !important;
+  opacity: 0.9;
+}
+
+/* Backpack ready to receive items */
+#backPack.backpackTarget:hover {
+  background-color: rgba(255, 193, 7, 0.2) !important;
+  animation: backpack-pulse 1.5s infinite ease-in-out;
+}
+
+/* Pulse animation for backpack when ready to receive items */
+@keyframes backpack-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.8);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 0 15px rgba(255, 193, 7, 0);
+    transform: scale(1.03);
+  }
+}
+
+/* Backpack when filled with items */
+#backPack.filled:hover {
+  animation: backpack-wiggle 0.5s ease-in-out;
+}
+
+@keyframes backpack-wiggle {
+  0%, 100% { transform: rotate(0deg) scale(1.05); }
+  25% { transform: rotate(-3deg) scale(1.07); }
+  75% { transform: rotate(3deg) scale(1.07); }
+}
+
+/* Backpack hover with different states */
+#backPack.empty:hover {
+  border: 3px dashed #28a745;
+  background-color: rgba(40, 167, 69, 0.1) !important;
+}
+
+#backPack.loading:hover {
+  border: 3px solid #fd7e14;
+  animation: backpack-loading 1s infinite linear;
+}
+
+@keyframes backpack-loading {
+  0% { transform: rotate(0deg) scale(1.05); }
+  100% { transform: rotate(360deg) scale(1.05); }
+}
+
+/* Responsive backpack hover effects */
+@media (max-width: 768px) {
+  #backPack:hover {
+    transform: scale(1.03) rotate(1deg);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  #backPack.main-game-piece:hover {
+    transform: scale(1.08) rotate(-1deg);
+  }
+}
+
+/* Backpack glow effect when hovered */
+#backPack:hover::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: linear-gradient(45deg, #ffc107, #fd7e14, #dc3545, #6f42c1);
+  border-radius: 12px;
+  z-index: -1;
+  filter: blur(10px);
+  opacity: 0.7;
+  animation: glow-rotate 2s linear infinite;
+}
+
+@keyframes glow-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .hint-text {
@@ -150,6 +254,94 @@ main {
   border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style each game piece differently with hover effects */
+[id^="gamePiece"]:nth-child(1) {
+  border: 3px solid #ff6b6b; /* Red border for first piece */
+  filter: hue-rotate(0deg);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+[id^="gamePiece"]:nth-child(1):hover {
+  transform: scale(1.1) rotate(5deg);
+  border: 3px solid #ff5252;
+  box-shadow: 0 6px 12px rgba(255, 107, 107, 0.4);
+  cursor: grab;
+  z-index: 1001;
+}
+
+[id^="gamePiece"]:nth-child(2) {
+  border: 3px solid #4ecdc4; /* Teal border for second piece */
+  filter: hue-rotate(90deg);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+[id^="gamePiece"]:nth-child(2):hover {
+  transform: scale(1.1) rotate(-5deg);
+  border: 3px solid #26a69a;
+  box-shadow: 0 6px 12px rgba(78, 205, 196, 0.4);
+  cursor: grab;
+  z-index: 1001;
+}
+
+[id^="gamePiece"]:nth-child(3) {
+  border: 3px solid #45b7d1; /* Blue border for third piece */
+  filter: hue-rotate(180deg);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+[id^="gamePiece"]:nth-child(3):hover {
+  transform: scale(1.1) rotate(3deg);
+  border: 3px solid #2196f3;
+  box-shadow: 0 6px 12px rgba(69, 183, 209, 0.4);
+  cursor: grab;
+  z-index: 1001;
+}
+
+[id^="gamePiece"]:nth-child(4) {
+  border: 3px solid #96ceb4; /* Green border for fourth piece */
+  filter: hue-rotate(270deg);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+[id^="gamePiece"]:nth-child(4):hover {
+  transform: scale(1.1) rotate(-3deg);
+  border: 3px solid #66bb6a;
+  box-shadow: 0 6px 12px rgba(150, 206, 180, 0.4);
+  cursor: grab;
+  z-index: 1001;
+}
+
+/* General hover effects for all game pieces */
+[id^="gamePiece"]:hover {
+  filter: brightness(1.1) contrast(1.1);
+}
+
+/* Active state when being dragged */
+[id^="gamePiece"]:active {
+  cursor: grabbing !important;
+  transform: scale(0.95) !important;
+  opacity: 0.8;
+}
+
+/* Pulse animation for interactive hint */
+@keyframes pulse-hint {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+  }
+  70% { 
+    box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+  }
+}
+
+/* Add pulsing effect when pieces are ready to be moved */
+[id^="gamePiece"].ready-to-move {
+  animation: pulse-hint 2s infinite;
 }
 
 

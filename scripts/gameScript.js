@@ -184,6 +184,44 @@ $(document).ready(function() {
       }
     }
   });
+  
+  // Add hover sound effects and visual feedback
+  $('#backPack').hover(
+    function() {
+      // On hover in
+      if (gamePhase === 'toBackpack') {
+        $(this).addClass('ready-to-receive');
+        $('#goBox1').text('Get your crap in the backpack! 🎒');
+      } else if (gamePhase === 'toHouse') {
+        $(this).addClass('ready-to-move');
+        $('#goBox2').text('Take your crap somewhere');
+      }
+    },
+    function() {
+      // On hover out
+      $(this).removeClass('ready-to-receive ready-to-move');
+      // Restore original instructions
+      if (gamePhase === 'toBackpack') {
+        $('#goBox1').text('3️⃣ 👉Move all your crap 💩 to the backpack');
+      }
+    }
+  );
+
+  // Add filled state when items are added
+  function updateBackpackState() {
+    const $backpack = $('#backPack');
+    
+    if (backpackItems.length === 0) {
+      $backpack.addClass('empty').removeClass('filled loading');
+    } else if (backpackItems.length < 4) {
+      $backpack.addClass('loading').removeClass('empty filled');
+    } else {
+      $backpack.addClass('filled').removeClass('empty loading');
+    }
+  }
+
+  // Call updateBackpackState whenever items are added/removed
+  // (integrate this into your existing drop handlers)
 });
 
 // Add this function to initialize/re-initialize draggables
