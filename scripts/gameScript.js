@@ -6,6 +6,7 @@ let backpackItems = []; // Track amount of crap in backpack
 let gamePhase = 'toBackpack'; // 'toBackpack' or 'toHouse'
 
 // Detect if the user is on a mobile device
+// mobile version only half works- could fix
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 //Using jQuery's document ready instead of vanilla JS
