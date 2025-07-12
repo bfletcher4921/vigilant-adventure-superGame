@@ -225,7 +225,7 @@ $(document).ready(function() {
   }
 
   // Call updateBackpackState whenever items are added/removed
-  // (integrate this into your existing drop handlers)
+
 });
 
 // Add this function to initialize/re-initialize draggables
