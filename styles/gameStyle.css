@@ -344,4 +344,31 @@ main {
   animation: pulse-hint 2s infinite;
 }
 
+/* Mobile-friendly touch targets */
+@media (max-width: 768px) {
+  [id^="gamePiece"] {
+    width: 90px !important;
+    height: 90px !important;
+    border: 4px solid #007bff !important;
+  }
+  
+  #backPack {
+    width: 100px !important;
+    height: 100px !important;
+    border: 4px solid #ffc107 !important;
+  }
+  
+  /* Prevent page scrolling during drag */
+  body.dragging {
+    overflow: hidden;
+    touch-action: none;
+  }
+}
+
+/* Touch-specific styling */
+[id^="gamePiece"], #backPack {
+  touch-action: none;
+  user-select: none;
+}
+
 

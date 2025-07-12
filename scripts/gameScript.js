@@ -5,6 +5,9 @@ let gameTargets;
 let backpackItems = []; // Track amount of crap in backpack
 let gamePhase = 'toBackpack'; // 'toBackpack' or 'toHouse'
 
+// Detect if the user is on a mobile device
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
 //Using jQuery's document ready instead of vanilla JS
 $(document).ready(function() {
   // Initialize the game
@@ -238,7 +241,9 @@ function initializeDraggables() {
       scroll: true,
       snap: ".backpackTarget, .gameTargets", 
       snapMode: "inner", 
-      snapTolerance: 60,
+      snapTolerance: isMobile ? 80 : 60, // Larger tolerance for mobile
+      delay: isMobile ? 100 : 0, // Slight delay on mobile to distinguish from scrolling
+      distance: isMobile ? 10 : 1, // Require more movement on mobile
       revert: function(dropped) {
         // Revert if not dropped on valid target
         if (!dropped) return true;
@@ -256,11 +261,18 @@ function initializeDraggables() {
         return false;
       },
       revertDuration: 300,
+      start: function() {
+        if (isMobile) {
+          $('body').addClass('dragging');
+        }
+      },
       stop: function(event, ui) {
-        // Re-enable snapping after any drag operation
+        if (isMobile) {
+          $('body').removeClass('dragging');
+        }
         $(this).draggable('option', 'snap', '.backpackTarget, .gameTargets');
         $(this).draggable('option', 'snapMode', 'inner');
-        $(this).draggable('option', 'snapTolerance', 60);
+        $(this).draggable('option', 'snapTolerance', isMobile ? 80 : 60);
       }
     });
   });
